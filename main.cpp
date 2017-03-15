@@ -80,10 +80,12 @@ double cal(int *stone[], int l) {//prim
 	}
 	for (int i = 0; i < countE+1; i++) {
 		
-		if (ifContain(0,1,nStone)==false) {
-			Union(All_Edges[countE].From, All_Edges[countE].To, nStone);
+		if (ifContain(0, 1, nStone) == false) {
+			Union(All_Edges[i].From, All_Edges[i].To, nStone);
 			d = max(d, All_Edges[i].Length);
 		}
+		else
+			break;
 
 	}
 
