@@ -9,7 +9,7 @@ using namespace std;
 struct Edge {
 	int From, To;
 	double Length;
-}All_Edges[20000];
+}All_Edges[30000];
 
 int CMP(const void *a, const void *b) {
 	Edge *A = (Edge*)a;
@@ -46,7 +46,8 @@ void Union(int element1, int element2, int A[]) {
 bool ifContain(int a, int b, int A[]) {
 	int fa = Find(a, A);
 	int fb = Find(b, A);
-	if (fa == a || fb == b)
+
+	if (fa == -1|| fb == -1)
 		return false;
 	else if (fa == fb)
 		return true;
@@ -74,25 +75,26 @@ double cal(int *stone[], int l) {//prim
 	qsort(All_Edges, countE, sizeof(Edge), CMP);
 
 	double d = 0;
-	int *nStone = new int[l];
+	int *nStone = new int[l+1];
 	for (int i = 0; i < l; i++) {
 		nStone[i] = -1;
 	}
-	for (int i = 0; i < countE ; i++) {
+	for (int i = 0; i < countE+1; i++) {
 
 		if (ifContain(0, 1, nStone) == false) {
 			int from = All_Edges[i].From;
 			int to = All_Edges[i].To;
+
 			if (ifContain(from, to, nStone) == false) {
-				Union(All_Edges[i].From, All_Edges[i].To, nStone);
+				Union(from,to, nStone);
 				d = All_Edges[i].Length;
 			}
 			else
 				continue;
-			
-			
+
+
 		}
-		else if(ifContain(0, 1, nStone) == true)
+		else if (ifContain(0, 1, nStone) == true)
 			break;
 
 	}
@@ -106,7 +108,7 @@ int main() {
 	while (!cin.eof() && sNum != 0) {
 		int **stone = new int*[sNum + 1];// store location of x y;
 		for (int i = 0; i < sNum; i++) {
-			stone[i] = new int[2];
+			stone[i] = new int[3];
 		}
 		for (int i = 0; i < sNum; i++) {
 			cin >> stone[i][0] >> stone[i][1];
@@ -119,7 +121,7 @@ int main() {
 		cout << "Scenario #" << count << endl;
 		count++;
 		cout.setf(ios::fixed);
-		cout << "Frog Dsitance = " << setprecision(3) << c.front() << endl;
+		cout << "Frog Distance = " << setprecision(3) << c.front() << endl;
 		cout << endl;
 		c.pop();
 	}
